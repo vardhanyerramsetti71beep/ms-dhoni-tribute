@@ -336,6 +336,40 @@
     }
   }
 
+  /* ---------------- Signature clip: plays muted while on screen ---------------- */
+  const sigVideo = document.getElementById("sig-video");
+  const sigToggle = document.getElementById("sig-toggle");
+  if (sigVideo && sigToggle) {
+    let userPaused = reduceMotion;                     // reduced motion: wait for a tap
+    const setBtn = () => {
+      const playing = !sigVideo.paused;
+      sigToggle.setAttribute("aria-label", playing ? "Pause the clip" : "Play the clip");
+      sigToggle.firstElementChild.innerHTML = playing ? "&#10074;&#10074;" : "&#9654;";
+    };
+    sigVideo.addEventListener("play", setBtn);
+    sigVideo.addEventListener("pause", setBtn);
+    const sigSound = document.getElementById("sig-sound");
+    if (sigSound) {
+      sigSound.addEventListener("click", () => {
+        sigVideo.muted = !sigVideo.muted;
+        sigSound.setAttribute("aria-pressed", String(!sigVideo.muted));
+        sigSound.setAttribute("aria-label", sigVideo.muted ? "Turn sound on" : "Turn sound off");
+        sigSound.firstElementChild.innerHTML = sigVideo.muted ? "&#128263;" : "&#128266;";
+        if (!sigVideo.muted && sigVideo.paused) { userPaused = false; sigVideo.play().catch(() => {}); }
+      });
+    }
+    sigToggle.addEventListener("click", () => {
+      if (sigVideo.paused) { userPaused = false; sigVideo.play().catch(() => {}); }
+      else { userPaused = true; sigVideo.pause(); }
+    });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting && !userPaused) sigVideo.play().catch(() => {});
+        else if (!entry.isIntersecting) sigVideo.pause();
+      }, { threshold: 0.4 }).observe(sigVideo);
+    }
+  }
+
   /* ---------------- Count-up numbers ---------------- */
   const countUp = (el) => {
     const target = Number(el.dataset.count);

@@ -519,43 +519,18 @@
 
     <!-- SIGNATURE MOMENT -->
     <section class="sig" id="signature">
-      <div class="wrap sig__inner">
-        <figure class="sig__figure reveal">
-          <div class="lens" role="img" aria-label="Illustration: MS Dhoni's autograph written across the glass of a broadcast camera lens">
-            <svg class="lens__body" viewBox="0 0 400 400" aria-hidden="true">
-              <defs>
-                <radialGradient id="glass" cx="46%" cy="42%" r="62%">
-                  <stop offset="0" stop-color="#22324a"/>
-                  <stop offset=".55" stop-color="#0f1726"/>
-                  <stop offset="1" stop-color="#05070b"/>
-                </radialGradient>
-                <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#8a5cff" stop-opacity=".0"/>
-                  <stop offset=".45" stop-color="#8a5cff" stop-opacity=".28"/>
-                  <stop offset=".7" stop-color="#2fd39a" stop-opacity=".22"/>
-                  <stop offset="1" stop-color="#2fd39a" stop-opacity="0"/>
-                </linearGradient>
-                <path id="ringText" d="M200,200 m-160,0 a160,160 0 1,1 320,0 a160,160 0 1,1 -320,0"/>
-              </defs>
-              <circle cx="200" cy="200" r="198" fill="#0b0d12" stroke="#2b303b" stroke-width="2"/>
-              <circle cx="200" cy="200" r="184" fill="#13161d"/>
-              <circle cx="200" cy="200" r="176" fill="none" stroke="#3b4150" stroke-width="9" stroke-dasharray="1.4 6.28"/>
-              <text font-family="Inter, sans-serif" font-size="10.5" font-weight="600" letter-spacing="3.2" fill="#8790a3">
-                <textPath href="#ringText" textLength="996" lengthAdjust="spacing">BROADCAST · IPL FINAL · AHMEDABAD · 30 MAY 2023 · CHENNAI SUPER KINGS v GUJARAT TITANS · </textPath>
-              </text>
-              <circle cx="200" cy="200" r="143" fill="#06070a" stroke="#2b303b" stroke-width="3"/>
-              <circle cx="200" cy="200" r="131" fill="url(#glass)"/>
-              <circle cx="200" cy="200" r="131" fill="url(#coat)"/>
-              <circle cx="200" cy="200" r="96" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1.5"/>
-              <circle cx="200" cy="200" r="58" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1.5"/>
-              <circle cx="200" cy="200" r="22" fill="rgba(0,0,0,.55)"/>
-            </svg>
-            <img class="lens__sig" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/MS_Dhoni_signature.png/960px-MS_Dhoni_signature.png" alt="" width="960" height="619">
-            <span class="lens__glare" aria-hidden="true"></span>
+      <div class="wrap sig__replay reveal">
+        <figure class="vf-fig">
+          <div class="viewfinder">
+            <video id="sig-video" src="media/dhoni-camera-signing-2023.mp4" poster="media/dhoni-camera-signing-2023.jpg" muted loop playsinline preload="none" width="1280" height="720" aria-label="Broadcast clip: Dhoni signs the camera lens after the IPL 2023 final while the team celebrates around the trophy"></video>
+            <span class="vf-rec" aria-hidden="true"><i></i>REC</span>
+            <button type="button" class="vf-toggle" id="sig-toggle" aria-label="Play the clip"><span aria-hidden="true">&#9654;</span></button>
+            <button type="button" class="vf-sound" id="sig-sound" aria-label="Turn sound on" aria-pressed="false"><span aria-hidden="true">&#128263;</span></button>
           </div>
-          <figcaption>Illustration. Autograph: MS Dhoni, public domain, via Wikimedia Commons.</figcaption>
+          <figcaption>The moment itself: IPL broadcast, Ahmedabad, 30 May 2023. Tap the speaker for sound.</figcaption>
         </figure>
-
+      </div>
+      <div class="wrap sig__inner">
         <div class="sig__copy reveal">
           <p class="kicker"><span>&#9733;</span> The signature moment</p>
           <h2>An autograph on the camera, for everyone watching</h2>
@@ -647,8 +622,8 @@
           <li><a href="https://commons.wikimedia.org/wiki/File:The_Chief_of_Army_Staff,_Gen._V.K._Singh_pipping_in_the_Rank_of_Hon._Lt._Col._to_Indian_Skipper_M.S._Dhoni,_in_New_Delhi_on_November_01,_2011.jpg" rel="noopener" target="_blank">Hon. Lt. Col. ceremony</a>: Ministry of Defence, GODL-India</li>
           <li><a href="https://commons.wikimedia.org/wiki/File:Mahendra_Singh_Dhoni_receiving_Padma_Bhushan.jpg" rel="noopener" target="_blank">Padma Bhushan</a>: President’s Secretariat, GODL-India</li>
           <li><a href="https://commons.wikimedia.org/wiki/File:MS_Dhoni_(Prabhav_%2723_-_RiGI_2023).jpg" rel="noopener" target="_blank">Prabhav ’23</a>: RIGI, <a href="https://creativecommons.org/licenses/by/3.0/" rel="noopener" target="_blank">CC BY 3.0</a></li>
+          <li>Signature clip: IPL broadcast footage, 30 May 2023, supplied by the site owner</li>
           <li>Hero: CSK studio portrait (photographer’s watermark kept) and an India match photo, supplied by the site owner; the India-kit version is a digital merge of the two</li>
-          <li><a href="https://commons.wikimedia.org/wiki/File:MS_Dhoni_signature.png" rel="noopener" target="_blank">Autograph</a>: MS Dhoni, public domain (the camera lens around it is drawn)</li>
         </ul>
       </div>
     </div>
