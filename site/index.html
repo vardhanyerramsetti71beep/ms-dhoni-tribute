@@ -25,9 +25,9 @@
         <ul class="nav__links">
           <li><a href="#story">Story</a></li>
           <li><a href="#matches">Matches</a></li>
-          <li><a href="#results">Wins &amp; Losses</a></li>
+          <li><a href="#results"><span class="lg">Wins &amp; Losses</span><span class="sm">W/L</span></a></li>
           <li><a href="#ipl">IPL</a></li>
-          <li><a href="#highlights">Highlights</a></li>
+          <li><a href="#highlights"><span class="lg">Highlights</span><span class="sm">Clips</span></a></li>
           <li><a href="#records">Records</a></li>
         </ul>
       </nav>
@@ -53,12 +53,60 @@
             <li><span class="dot dot--on"></span>Next: Chennai Super Kings mentor, IPL 2027</li>
           </ul>
         </div>
-        <figure class="hero__photo">
-          <span class="hero__seven" aria-hidden="true">7</span>
-          <div class="hero__frame">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/MS_Dhoni_2.jpg" alt="MS Dhoni in India kit at Adelaide Oval" width="1085" height="1306" fetchpriority="high">
+        <figure class="jersey" id="jersey">
+          <canvas class="jersey__lines" id="jersey-lines" aria-hidden="true"></canvas>
+          <div class="jersey__tilt" id="jersey-tilt">
+            <svg class="jersey__svg" viewBox="0 0 400 440" role="img" aria-labelledby="jersey-title">
+              <title id="jersey-title">Illustration: the back of a number 7 shirt reading DHONI, half India blue and half Chennai Super Kings yellow</title>
+              <defs>
+                <clipPath id="j-shape"><path d="M132 30 Q200 58 268 30 L330 50 Q368 66 392 126 L350 160 L318 132 L322 418 Q200 440 78 418 L82 132 L50 160 L8 126 Q32 66 70 50 Z"/></clipPath>
+                <clipPath id="j-left"><rect id="j-left-rect" x="0" y="0" width="200" height="440"/></clipPath>
+                <clipPath id="j-right"><rect id="j-right-rect" x="200" y="0" width="200" height="440"/></clipPath>
+                <linearGradient id="j-ind" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d6fe6"/><stop offset="1" stop-color="#103796"/></linearGradient>
+                <linearGradient id="j-csk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffdb3d"/><stop offset="1" stop-color="#f1b500"/></linearGradient>
+                <linearGradient id="j-fold" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#000" stop-opacity=".32"/>
+                  <stop offset=".22" stop-color="#000" stop-opacity="0"/>
+                  <stop offset=".5" stop-color="#fff" stop-opacity=".07"/>
+                  <stop offset=".78" stop-color="#000" stop-opacity="0"/>
+                  <stop offset="1" stop-color="#000" stop-opacity=".32"/>
+                </linearGradient>
+                <pattern id="j-mesh" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r=".7" fill="#000" fill-opacity=".13"/></pattern>
+              </defs>
+              <g clip-path="url(#j-shape)">
+                <g clip-path="url(#j-left)">
+                  <rect width="400" height="440" fill="url(#j-ind)"/>
+                  <rect x="84" y="150" width="7" height="290" fill="#ff9933"/>
+                  <rect x="91" y="150" width="4" height="290" fill="#ffffff"/>
+                  <rect x="95" y="150" width="7" height="290" fill="#138808"/>
+                  <rect x="298" y="150" width="7" height="290" fill="#ff9933"/>
+                  <rect x="305" y="150" width="4" height="290" fill="#ffffff"/>
+                  <rect x="309" y="150" width="7" height="290" fill="#138808"/>
+                  <text x="200" y="152" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="54" letter-spacing="5" fill="#ff9a2e">DHONI</text>
+                  <text x="200" y="372" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="210" fill="#ff9a2e" stroke="#ffffff" stroke-width="3">7</text>
+                </g>
+                <g clip-path="url(#j-right)">
+                  <rect width="400" height="440" fill="url(#j-csk)"/>
+                  <rect x="84" y="150" width="6" height="290" fill="#1b3a8c"/>
+                  <rect x="94" y="150" width="6" height="290" fill="#1b3a8c"/>
+                  <rect x="300" y="150" width="6" height="290" fill="#1b3a8c"/>
+                  <rect x="310" y="150" width="6" height="290" fill="#1b3a8c"/>
+                  <text x="200" y="152" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="54" letter-spacing="5" fill="#1b3a8c">DHONI</text>
+                  <text x="200" y="372" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="210" fill="#1b3a8c">7</text>
+                </g>
+                <rect width="400" height="440" fill="url(#j-mesh)"/>
+                <rect width="400" height="440" fill="url(#j-fold)"/>
+                <line id="j-split" x1="200" y1="0" x2="200" y2="440" stroke="#ffffff" stroke-width="2.5" stroke-opacity=".9"/>
+              </g>
+              <path d="M132 30 Q200 58 268 30" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="9" stroke-linecap="round"/>
+              <path d="M132 30 Q200 58 268 30 L330 50 Q368 66 392 126 L350 160 L318 132 L322 418 Q200 440 78 418 L82 132 L50 160 L8 126 Q32 66 70 50 Z" fill="none" stroke="#fff" stroke-opacity=".14" stroke-width="1.5"/>
+            </svg>
           </div>
-          <figcaption>Adelaide Oval &middot; Photo: Blnguyen, CC BY-SA 3.0</figcaption>
+          <div class="jersey__labels" aria-hidden="true">
+            <span class="jersey__side jersey__side--ind" id="j-lab-ind">India &middot; 2004–2019</span>
+            <span class="jersey__side jersey__side--csk" id="j-lab-csk">CSK &middot; 2008–2026</span>
+          </div>
+          <figcaption>Move your mouse (or finger) across the shirt: one half India, one half Chennai. Illustration.</figcaption>
         </figure>
       </div>
 
@@ -130,6 +178,10 @@
             <div class="tl__body">
               <h3>IPL’s most expensive player</h3>
               <p>Chennai Super Kings buy him for US$1.5 million at the first IPL auction, more than anyone else. He becomes Test captain and wins the ICC ODI Player of the Year award (again in 2009).</p>
+              <figure class="tl__photo tl__photo--portrait">
+                <img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/MS_Dhoni_2.jpg" alt="MS Dhoni in India kit at Adelaide Oval" width="1085" height="1306">
+                <figcaption>Adelaide Oval &middot; Photo: Blnguyen, CC BY-SA 3.0</figcaption>
+              </figure>
             </div>
           </li>
           <li class="tl reveal">

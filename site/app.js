@@ -204,6 +204,116 @@
     });
   }
 
+  /* ---------------- Hero jersey: India | CSK split follows the pointer ---------------- */
+  const jersey = document.getElementById("jersey");
+  if (jersey) {
+    const hero = document.getElementById("top");
+    const svg = jersey.querySelector(".jersey__svg");
+    const leftRect = document.getElementById("j-left-rect");
+    const rightRect = document.getElementById("j-right-rect");
+    const split = document.getElementById("j-split");
+    const labInd = document.getElementById("j-lab-ind");
+    const labCsk = document.getElementById("j-lab-csk");
+    const canvas = document.getElementById("jersey-lines");
+    const ctx = canvas.getContext("2d");
+
+    let target = { x: 0.5, y: 0.5 }, cur = { x: 0.5, y: 0.5 };
+    let lastMove = -1e9, visible = true, raf = 0, lines = [];
+
+    const paintSplit = (p, py) => {
+      const x = Math.max(0, Math.min(400, p * 400));
+      leftRect.setAttribute("width", x);
+      rightRect.setAttribute("x", x);
+      rightRect.setAttribute("width", 400 - x);
+      split.setAttribute("x1", x);
+      split.setAttribute("x2", x);
+      split.style.opacity = x <= 1 || x >= 399 ? 0 : 1;
+      labInd.style.setProperty("--o", (0.35 + 0.65 * p).toFixed(2));
+      labCsk.style.setProperty("--o", (0.35 + 0.65 * (1 - p)).toFixed(2));
+      if (!reduceMotion) {
+        svg.style.setProperty("--ry", `${((p - 0.5) * 18).toFixed(2)}deg`);
+        svg.style.setProperty("--rx", `${((0.5 - py) * 10).toFixed(2)}deg`);
+      }
+    };
+
+    const sizeCanvas = () => {
+      const r = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(r.width * dpr);
+      canvas.height = Math.round(r.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const colors = ["#2d6fe6", "#ff9933", "#f6c700", "#f6c700", "#ffffff"];
+      lines = Array.from({ length: 64 }, () => ({
+        x: Math.random() * r.width, y: Math.random() * r.height,
+        len: 24 + Math.random() * 70, speed: 1.5 + Math.random() * 4,
+        a: 0.12 + Math.random() * 0.35, w: 0.6 + Math.random() * 1.3,
+        c: colors[(Math.random() * colors.length) | 0],
+      }));
+    };
+
+    const drawLines = () => {
+      const w = canvas.width / Math.min(window.devicePixelRatio || 1, 2);
+      const h = canvas.height / Math.min(window.devicePixelRatio || 1, 2);
+      ctx.clearRect(0, 0, w, h);
+      const dy = (cur.y - 0.5) * 18;
+      for (const l of lines) {
+        l.x -= l.speed * (0.6 + Math.abs(cur.x - 0.5) * 1.6);
+        if (l.x + l.len < 0) { l.x = w + Math.random() * 60; l.y = Math.random() * h; }
+        ctx.globalAlpha = l.a;
+        ctx.strokeStyle = l.c;
+        ctx.lineWidth = l.w;
+        ctx.beginPath();
+        ctx.moveTo(l.x, l.y + dy);
+        ctx.lineTo(l.x + l.len, l.y + dy);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    };
+
+    const tick = (t) => {
+      raf = 0;
+      if (!visible) return;
+      if (t - lastMove > 2500) {
+        // idle: sweep slowly between the two shirts (also what phones see until touched)
+        target.x = 0.5 + 0.42 * Math.sin(t / 1600);
+        target.y = 0.5 + 0.12 * Math.sin(t / 2300);
+      }
+      cur.x += (target.x - cur.x) * 0.12;
+      cur.y += (target.y - cur.y) * 0.12;
+      paintSplit(cur.x, cur.y);
+      drawLines();
+      raf = requestAnimationFrame(tick);
+    };
+
+    const onMove = (e) => {
+      const r = hero.getBoundingClientRect();
+      if (e.clientY < r.top || e.clientY > r.bottom) return;
+      target.x = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+      target.y = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height));
+      lastMove = performance.now();
+      if (reduceMotion) { cur.x = target.x; cur.y = target.y; paintSplit(cur.x, cur.y); }
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+
+    if (reduceMotion) {
+      paintSplit(0.5, 0.5);
+    } else {
+      sizeCanvas();
+      window.addEventListener("resize", sizeCanvas);
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(([entry]) => {
+          visible = entry.isIntersecting;
+          if (visible && !raf) raf = requestAnimationFrame(tick);
+        }).observe(hero);
+      }
+      document.addEventListener("visibilitychange", () => {
+        visible = !document.hidden;
+        if (visible && !raf) raf = requestAnimationFrame(tick);
+      });
+      raf = requestAnimationFrame(tick);
+    }
+  }
+
   /* ---------------- Count-up numbers ---------------- */
   const countUp = (el) => {
     const target = Number(el.dataset.count);
