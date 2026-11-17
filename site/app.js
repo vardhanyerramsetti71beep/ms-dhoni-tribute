@@ -208,7 +208,8 @@
   const jersey = document.getElementById("jersey");
   if (jersey) {
     const hero = document.getElementById("top");
-    const svg = jersey.querySelector(".jersey__svg");
+    const tiltWrap = document.getElementById("jersey-tilt");
+    const photoSplit = document.getElementById("j-photo-split");
     const leftRect = document.getElementById("j-left-rect");
     const rightRect = document.getElementById("j-right-rect");
     const split = document.getElementById("j-split");
@@ -228,11 +229,13 @@
       split.setAttribute("x1", x);
       split.setAttribute("x2", x);
       split.style.opacity = x <= 1 || x >= 399 ? 0 : 1;
+      tiltWrap.style.setProperty("--split", `${(p * 100).toFixed(2)}%`);
+      photoSplit.style.opacity = p <= 0.005 || p >= 0.995 ? 0 : 1;
       labInd.style.setProperty("--o", (0.35 + 0.65 * p).toFixed(2));
       labCsk.style.setProperty("--o", (0.35 + 0.65 * (1 - p)).toFixed(2));
       if (!reduceMotion) {
-        svg.style.setProperty("--ry", `${((p - 0.5) * 18).toFixed(2)}deg`);
-        svg.style.setProperty("--rx", `${((0.5 - py) * 10).toFixed(2)}deg`);
+        tiltWrap.style.setProperty("--ry", `${((p - 0.5) * 18).toFixed(2)}deg`);
+        tiltWrap.style.setProperty("--rx", `${((0.5 - py) * 10).toFixed(2)}deg`);
       }
     };
 

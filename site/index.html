@@ -55,7 +55,23 @@
         </div>
         <figure class="jersey" id="jersey">
           <canvas class="jersey__lines" id="jersey-lines" aria-hidden="true"></canvas>
+          <svg class="fx-defs" width="0" height="0" aria-hidden="true" focusable="false">
+            <filter id="to-csk" color-interpolation-filters="sRGB">
+              <!-- mask = where the picture is clearly blue (blue well above red), so skin and hair are left alone -->
+              <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -4 0 4 0 -0.18" result="mask"/>
+              <!-- gold = brightness of the original pixel, tinted CSK yellow (keeps folds and shading) -->
+              <feColorMatrix in="SourceGraphic" type="matrix" values="0.57 1.121 0.209 0 0  0.465 0.915 0.171 0 0  0.03 0.059 0.011 0 0  0 0 0 1 0" result="gold"/>
+              <feComposite in="gold" in2="mask" operator="in" result="yellowed"/>
+              <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="yellowed"/></feMerge>
+            </filter>
+          </svg>
           <div class="jersey__tilt" id="jersey-tilt">
+            <div class="jersey__photo" id="j-photo">
+              <div class="jp-layer"><img class="jp-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mandar_Agashe_felicitating_MS_Dhoni.jpg/1280px-Mandar_Agashe_felicitating_MS_Dhoni.jpg" alt="MS Dhoni smiling in a sports shirt, February 2024" width="1280" height="1756" fetchpriority="high"></div>
+              <div class="jp-layer jp-csk" aria-hidden="true"><img class="jp-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mandar_Agashe_felicitating_MS_Dhoni.jpg/1280px-Mandar_Agashe_felicitating_MS_Dhoni.jpg" alt="" width="1280" height="1756"></div>
+              <span class="jp-split" id="j-photo-split" aria-hidden="true"></span>
+              <span class="jp-date">Feb 2024</span>
+            </div>
             <svg class="jersey__svg" viewBox="0 0 400 440" role="img" aria-labelledby="jersey-title">
               <title id="jersey-title">Illustration: the back of a number 7 shirt reading DHONI, half India blue and half Chennai Super Kings yellow</title>
               <defs>
@@ -106,7 +122,7 @@
             <span class="jersey__side jersey__side--ind" id="j-lab-ind">India &middot; 2004–2019</span>
             <span class="jersey__side jersey__side--csk" id="j-lab-csk">CSK &middot; 2008–2026</span>
           </div>
-          <figcaption>Move your mouse (or finger) across the shirt: one half India, one half Chennai. Illustration.</figcaption>
+          <figcaption>Move your mouse (or finger) across him: India blue on one side, Chennai yellow on the other. The shirt colour is a live effect. Photo: Agashe Foundation, CC BY-SA 4.0, cropped.</figcaption>
         </figure>
       </div>
 
@@ -642,6 +658,7 @@
           <li><a href="https://commons.wikimedia.org/wiki/File:The_Chief_of_Army_Staff,_Gen._V.K._Singh_pipping_in_the_Rank_of_Hon._Lt._Col._to_Indian_Skipper_M.S._Dhoni,_in_New_Delhi_on_November_01,_2011.jpg" rel="noopener" target="_blank">Hon. Lt. Col. ceremony</a>: Ministry of Defence, GODL-India</li>
           <li><a href="https://commons.wikimedia.org/wiki/File:Mahendra_Singh_Dhoni_receiving_Padma_Bhushan.jpg" rel="noopener" target="_blank">Padma Bhushan</a>: President’s Secretariat, GODL-India</li>
           <li><a href="https://commons.wikimedia.org/wiki/File:MS_Dhoni_(Prabhav_%2723_-_RiGI_2023).jpg" rel="noopener" target="_blank">Prabhav ’23</a>: RIGI, <a href="https://creativecommons.org/licenses/by/3.0/" rel="noopener" target="_blank">CC BY 3.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Mandar_Agashe_felicitating_MS_Dhoni.jpg" rel="noopener" target="_blank">Hero photo, Feb 2024</a>: Agashe Foundation, <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank">CC BY-SA 4.0</a>; cropped, with a live shirt-colour effect</li>
           <li><a href="https://commons.wikimedia.org/wiki/File:MS_Dhoni_signature.png" rel="noopener" target="_blank">Autograph</a>: MS Dhoni, public domain (the camera lens around it is drawn)</li>
         </ul>
       </div>

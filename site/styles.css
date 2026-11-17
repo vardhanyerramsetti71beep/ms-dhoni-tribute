@@ -130,12 +130,33 @@ dl, dd { margin: 0; }
   position: relative; z-index: 1; perspective: 900px;
   filter: drop-shadow(0 34px 40px rgba(0, 0, 0, .55));
 }
-.jersey__svg {
-  display: block; width: 100%; height: auto;
-  transform: rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg));
-  transform-style: preserve-3d; will-change: transform;
+.fx-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.jersey__photo {
+  position: relative; aspect-ratio: 4 / 5; border-radius: 20px; overflow: hidden;
+  background: #0d3a8f; box-shadow: 0 0 0 1px var(--line-2);
+  transform: rotateY(calc(var(--ry, 0deg) * .5)) rotateX(calc(var(--rx, 0deg) * .5));
 }
-.jersey__labels { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; }
+.jp-layer { position: absolute; inset: 0; overflow: hidden; }
+.jp-img {
+  position: absolute; max-width: none; width: 172%; height: auto; left: -71%; top: -9%;
+  pointer-events: none; user-select: none;
+}
+.jp-csk { filter: url(#to-csk); clip-path: inset(0 0 0 var(--split, 50%)); }
+.jp-split {
+  position: absolute; top: 0; bottom: 0; left: var(--split, 50%); width: 2px; margin-left: -1px;
+  background: #fff; box-shadow: 0 0 14px rgba(255, 255, 255, .8);
+}
+.jp-date {
+  position: absolute; right: 12px; top: 12px; padding: 4px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  background: rgba(10, 13, 20, .7); color: var(--text);
+}
+.jersey__svg {
+  position: absolute; z-index: 2; width: 42%; left: -10%; bottom: -3%; height: auto;
+  transform: rotate(-8deg) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg));
+  will-change: transform;
+}
+.jersey__labels { position: relative; z-index: 1; display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
 .jersey__side {
   font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   padding: 5px 10px; border-radius: 999px; opacity: var(--o, .7); transition: opacity .2s;
@@ -168,6 +189,7 @@ dl, dd { margin: 0; }
   .hero { padding-top: 32px; }
   .hero__grid { grid-template-columns: 1fr; gap: 36px; }
   .jersey { justify-self: center; max-width: 360px; }
+  .jersey__svg { left: -3%; width: 38%; }
   .ticker { grid-template-columns: repeat(2, 1fr); margin-top: 40px; }
   .ticker > div, .ticker > div + div { padding: 18px 14px 16px 0; border-left: 0; }
   .ticker > div:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--line); }
