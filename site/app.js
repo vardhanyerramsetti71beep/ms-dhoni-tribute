@@ -55,7 +55,7 @@
     { y: 2020, t: "CSK", m: 14, r: 200, avg: "25.00", sr: "116.27", hs: 47, note: "Played in the UAE. CSK missed the playoffs for the first time." },
     { y: 2021, t: "CSK", m: 16, r: 114, avg: "16.28", sr: "106.54", hs: 18, title: true, note: "Fourth title. KKR beaten by 27 runs in the Dubai final." },
     { y: 2022, t: "CSK", m: 14, r: 232, avg: "33.14", sr: "123.40", hs: 50, note: "Handed the captaincy to Ravindra Jadeja before the season, then took it back halfway through." },
-    { y: 2023, t: "CSK", m: 16, r: 104, avg: "26.00", sr: "182.46", hs: 32, title: true, note: "Fifth title, won on the reserve day in Ahmedabad. He played the whole season on an injured knee." },
+    { y: 2023, t: "CSK", m: 16, r: 104, avg: "26.00", sr: "182.46", hs: 32, title: true, note: "Fifth title, won on the reserve day in Ahmedabad, after which he walked up to a broadcast camera and signed his autograph on it. He played the whole season on an injured knee." },
     { y: 2024, t: "CSK", m: 14, r: 161, avg: "53.67", sr: "220.55", hs: 37, note: "Gave the captaincy to Ruturaj Gaikwad and batted at the death, striking at 220.55." },
     { y: 2025, t: "CSK", m: 14, r: 196, avg: "24.50", sr: "135.17", hs: 30, note: "Took the captaincy back at 43 after Gaikwad fractured his elbow. CSK finished last." },
     { y: 2026, t: "DNP", dnp: true, note: "Missed the entire season with a thumb injury, the first IPL ever played without him. On 17 November 2026 he ended his IPL playing career and was named CSK mentor from 2027." },

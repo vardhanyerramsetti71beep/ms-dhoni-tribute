@@ -14,6 +14,7 @@ A one-page fan site about MS Dhoni: his story from Ranchi, every international m
 | 03 · Wins & losses | Captaincy results by format and in the IPL, plus the three ICC trophies |
 | 04 · IPL career | Career totals, an interactive runs-by-season chart (2008–2026), the five titles and the lost finals |
 | 05 · Highlights | Sixes, stumpings, run-outs and captaincy clips, played with YouTube's embedded player |
+| The signature moment | The IPL 2023 final, when he autographed the broadcast camera: his real (public-domain) autograph drawn onto an illustrated camera lens |
 | 06 · Records & honours | Records that still stand, awards and the ICC Hall of Fame |
 
 All figures are as of 17 November 2026. Sources are listed in the page footer.
@@ -37,7 +38,7 @@ Then open http://localhost:5547. Passing `0.0.0.0` lets a phone on the same Wi-F
 
 ## Media credits
 
-- Photos are from Wikimedia Commons and are loaded from there: Adelaide Oval photo by Blnguyen (CC BY-SA 3.0); Hon. Lt. Col. ceremony (Ministry of Defence, GODL-India); Padma Bhushan ceremony (President's Secretariat, GODL-India); Prabhav '23 photo by RIGI (CC BY 3.0).
+- Photos are from Wikimedia Commons and are loaded from there: Adelaide Oval photo by Blnguyen (CC BY-SA 3.0); Hon. Lt. Col. ceremony (Ministry of Defence, GODL-India); Padma Bhushan ceremony (President's Secretariat, GODL-India); Prabhav '23 photo by RIGI (CC BY 3.0); MS Dhoni's autograph (public domain). The camera lens around the autograph is drawn in SVG.
 - Video clips are ICC and Cricbuzz uploads, embedded from YouTube. They are not copied into this repo.
 
 ## Disclaimer
