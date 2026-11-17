@@ -204,12 +204,12 @@
     });
   }
 
-  /* ---------------- Hero jersey: India | CSK split follows the pointer ---------------- */
+  /* ---------------- Hero: India kit, with a CSK spotlight that grows as the cursor nears him ---------------- */
   const jersey = document.getElementById("jersey");
   if (jersey) {
     const hero = document.getElementById("top");
+    const photo = document.getElementById("j-photo");
     const tiltWrap = document.getElementById("jersey-tilt");
-    const photoSplit = document.getElementById("j-photo-split");
     const leftRect = document.getElementById("j-left-rect");
     const rightRect = document.getElementById("j-right-rect");
     const split = document.getElementById("j-split");
@@ -217,57 +217,74 @@
     const labCsk = document.getElementById("j-lab-csk");
     const canvas = document.getElementById("jersey-lines");
     const ctx = canvas.getContext("2d");
+    const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
 
-    let target = { x: 0.5, y: 0.5 }, cur = { x: 0.5, y: 0.5 };
-    let lastMove = -1e9, visible = true, raf = 0, lines = [];
+    // positions are in px relative to the photo card; "him" = face/chest point
+    let box = { w: 1, h: 1 }, him = { x: 0, y: 0 }, cv = { x: 0, y: 0, w: 1, h: 1, dpr: 1 };
+    const target = { x: 0, y: 0 }, cur = { x: 0, y: 0 };
+    let prox = 0, lastMove = -1e9, visible = true, raf = 0, streaks = [];
 
-    const paintSplit = (p, py) => {
-      const x = Math.max(0, Math.min(400, p * 400));
-      leftRect.setAttribute("width", x);
-      rightRect.setAttribute("x", x);
-      rightRect.setAttribute("width", 400 - x);
-      split.setAttribute("x1", x);
-      split.setAttribute("x2", x);
-      split.style.opacity = x <= 1 || x >= 399 ? 0 : 1;
-      tiltWrap.style.setProperty("--split", `${(p * 100).toFixed(2)}%`);
-      photoSplit.style.opacity = p <= 0.005 || p >= 0.995 ? 0 : 1;
-      labInd.style.setProperty("--o", (0.35 + 0.65 * p).toFixed(2));
-      labCsk.style.setProperty("--o", (0.35 + 0.65 * (1 - p)).toFixed(2));
-      if (!reduceMotion) {
-        tiltWrap.style.setProperty("--ry", `${((p - 0.5) * 18).toFixed(2)}deg`);
-        tiltWrap.style.setProperty("--rx", `${((0.5 - py) * 10).toFixed(2)}deg`);
-      }
-    };
-
-    const sizeCanvas = () => {
-      const r = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(r.width * dpr);
-      canvas.height = Math.round(r.height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const measure = () => {
+      const pr = photo.getBoundingClientRect();
+      const cr = canvas.getBoundingClientRect();
+      box = { w: pr.width, h: pr.height };
+      him = { x: pr.width * 0.5, y: pr.height * 0.42 };
+      cv.dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cv.w = cr.width; cv.h = cr.height;
+      cv.x = pr.left - cr.left + him.x; cv.y = pr.top - cr.top + him.y;   // his point in canvas space
+      canvas.width = Math.round(cr.width * cv.dpr);
+      canvas.height = Math.round(cr.height * cv.dpr);
+      ctx.setTransform(cv.dpr, 0, 0, cv.dpr, 0, 0);
       const colors = ["#2d6fe6", "#ff9933", "#f6c700", "#f6c700", "#ffffff"];
-      lines = Array.from({ length: 64 }, () => ({
-        x: Math.random() * r.width, y: Math.random() * r.height,
-        len: 24 + Math.random() * 70, speed: 1.5 + Math.random() * 4,
-        a: 0.12 + Math.random() * 0.35, w: 0.6 + Math.random() * 1.3,
+      const outer = Math.hypot(cv.w, cv.h) / 2;
+      streaks = Array.from({ length: 70 }, () => ({
+        a: Math.random() * Math.PI * 2, d: box.w * 0.45 + Math.random() * outer,
+        len: 16 + Math.random() * 46, v: 1.2 + Math.random() * 2.6,
+        al: 0.15 + Math.random() * 0.4, lw: 0.6 + Math.random() * 1.2,
         c: colors[(Math.random() * colors.length) | 0],
       }));
     };
 
-    const drawLines = () => {
-      const w = canvas.width / Math.min(window.devicePixelRatio || 1, 2);
-      const h = canvas.height / Math.min(window.devicePixelRatio || 1, 2);
-      ctx.clearRect(0, 0, w, h);
-      const dy = (cur.y - 0.5) * 18;
-      for (const l of lines) {
-        l.x -= l.speed * (0.6 + Math.abs(cur.x - 0.5) * 1.6);
-        if (l.x + l.len < 0) { l.x = w + Math.random() * 60; l.y = Math.random() * h; }
-        ctx.globalAlpha = l.a;
-        ctx.strokeStyle = l.c;
-        ctx.lineWidth = l.w;
+    const paint = () => {
+      const dist = Math.hypot(cur.x - him.x, cur.y - him.y);
+      prox = clamp(1 - dist / (box.w * 1.15));                 // 0 far away … 1 on him
+      const r = box.h * 0.72 * Math.pow(prox, 0.9);
+      photo.style.setProperty("--cx", `${cur.x.toFixed(1)}px`);
+      photo.style.setProperty("--cy", `${cur.y.toFixed(1)}px`);
+      photo.style.setProperty("--r", `${r.toFixed(1)}px`);
+      photo.style.setProperty("--ro", prox > 0.03 ? 1 : 0);
+      // the DHONI 7 badge and the labels follow the same India → CSK share
+      const x = (1 - prox) * 400;
+      leftRect.setAttribute("width", x);
+      rightRect.setAttribute("x", x);
+      rightRect.setAttribute("width", 400 - x);
+      split.setAttribute("x1", x); split.setAttribute("x2", x);
+      split.style.opacity = x <= 1 || x >= 399 ? 0 : 1;
+      labInd.style.setProperty("--o", (0.35 + 0.65 * (1 - prox)).toFixed(2));
+      labCsk.style.setProperty("--o", (0.35 + 0.65 * prox).toFixed(2));
+      if (!reduceMotion) {
+        tiltWrap.style.setProperty("--ry", `${(clamp((cur.x - him.x) / box.w, -1, 1) * 12).toFixed(2)}deg`);
+        tiltWrap.style.setProperty("--rx", `${(clamp((him.y - cur.y) / box.h, -1, 1) * 8).toFixed(2)}deg`);
+      }
+    };
+
+    // speed lines streaming in towards him, faster as the cursor gets closer (the Max Verstappen hero, pointed at Dhoni)
+    const drawStreaks = () => {
+      ctx.clearRect(0, 0, cv.w, cv.h);
+      const ox = cv.x + (cur.x - him.x) * 0.05, oy = cv.y + (cur.y - him.y) * 0.05;
+      const inner = box.w * 0.42, outer = Math.hypot(cv.w, cv.h) / 2;
+      const boost = 1 + prox * 2.6;
+      for (const s of streaks) {
+        s.d -= s.v * boost;
+        if (s.d < inner) { s.d = outer + Math.random() * 60; s.a = Math.random() * Math.PI * 2; }
+        const cos = Math.cos(s.a), sin = Math.sin(s.a);
+        const fade = clamp((s.d - inner) / 60);
+        ctx.globalAlpha = s.al * fade;
+        ctx.strokeStyle = s.c;
+        ctx.lineWidth = s.lw;
         ctx.beginPath();
-        ctx.moveTo(l.x, l.y + dy);
-        ctx.lineTo(l.x + l.len, l.y + dy);
+        ctx.moveTo(ox + cos * s.d, oy + sin * s.d);
+        ctx.lineTo(ox + cos * (s.d + s.len * (0.7 + prox)), oy + sin * (s.d + s.len * (0.7 + prox)));
         ctx.stroke();
       }
       ctx.globalAlpha = 1;
@@ -277,32 +294,34 @@
       raf = 0;
       if (!visible) return;
       if (t - lastMove > 2500) {
-        // idle: sweep slowly between the two shirts (also what phones see until touched)
-        target.x = 0.5 + 0.42 * Math.sin(t / 1600);
-        target.y = 0.5 + 0.12 * Math.sin(t / 2300);
+        // idle (and phones until touched): the spotlight drifts in and out around him
+        target.x = him.x + box.w * 0.62 * Math.cos(t / 2100);
+        target.y = him.y + box.h * 0.32 * Math.sin(t / 1500);
       }
-      cur.x += (target.x - cur.x) * 0.12;
-      cur.y += (target.y - cur.y) * 0.12;
-      paintSplit(cur.x, cur.y);
-      drawLines();
+      cur.x += (target.x - cur.x) * 0.14;
+      cur.y += (target.y - cur.y) * 0.14;
+      paint();
+      drawStreaks();
       raf = requestAnimationFrame(tick);
     };
 
     const onMove = (e) => {
-      const r = hero.getBoundingClientRect();
-      if (e.clientY < r.top || e.clientY > r.bottom) return;
-      target.x = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
-      target.y = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height));
+      const hr = hero.getBoundingClientRect();
+      if (e.clientY < hr.top || e.clientY > hr.bottom) return;
+      const pr = photo.getBoundingClientRect();
+      target.x = e.clientX - pr.left;
+      target.y = e.clientY - pr.top;
       lastMove = performance.now();
-      if (reduceMotion) { cur.x = target.x; cur.y = target.y; paintSplit(cur.x, cur.y); }
+      if (reduceMotion) { cur.x = target.x; cur.y = target.y; paint(); }
     };
     window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("resize", measure);
 
+    measure();
+    cur.x = target.x = him.x + box.w * 0.62; cur.y = target.y = him.y;
     if (reduceMotion) {
-      paintSplit(0.5, 0.5);
+      cur.x = him.x + box.w * 0.5; cur.y = him.y; paint();   // a still, half-and-half view
     } else {
-      sizeCanvas();
-      window.addEventListener("resize", sizeCanvas);
       if ("IntersectionObserver" in window) {
         new IntersectionObserver(([entry]) => {
           visible = entry.isIntersecting;
